@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "493122735332",
+    "project_id": "jobtimer-64519",
+    "storage_bucket": "jobtimer-64519.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493122735332:android:44fbec6f4211cb082eb0f1",
+        "android_client_info": {
+          "package_name": "br.com.academiadoflutter.job_timer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493122735332-vsepf27977rum55roks5vu3lk0313brc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.academiadoflutter.job_timer",
+            "certificate_hash": "cc41a018ad40dcbb2f369e1c232a870eb5037ce0"
+          }
+        },
+        {
+          "client_id": "493122735332-poo3m72dpkmkkrtroh4n0iismn43e5sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgmeyboBw_LH-0tWZnZXbTcezDHs3VgLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493122735332-poo3m72dpkmkkrtroh4n0iismn43e5sa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
