@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:job_timer/app/view_models/project_task_model.dart';
 
 class ProjectTaskTile extends StatelessWidget {
-  const ProjectTaskTile({Key? key}) : super(key: key);
+  final ProjectTaskModel task;
+
+  const ProjectTaskTile({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +18,19 @@ class ProjectTaskTile extends StatelessWidget {
         //esse main é a direção dela.
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'nome da Task',
+          Text(
+            task.name,
           ),
           // isso que faz com que consiga agrupar varios elementos dentro de um mesmo lugar, nesse caso, os textos dentro do componente .
           RichText(
-            text: const TextSpan(
+            text: TextSpan(
               children: [
-                TextSpan(text: 'Duração', style: TextStyle(color: Colors.grey)),
-                TextSpan(text: '     '),
+                const TextSpan(
+                    text: 'Duração', style: TextStyle(color: Colors.grey)),
+                const TextSpan(text: '     '),
                 TextSpan(
-                    text: '4h',
-                    style: TextStyle(
+                    text: '${task.duration}',
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black)),
               ],
             ),

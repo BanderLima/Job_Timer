@@ -48,4 +48,7 @@ class ProjectsServiceImpl implements ProjectsService {
     final project = await _projectRepository.findById(projectId);
     return ProjectModel.fromEntity(project);
   }
+
+  @override
+  Future<void> finish(int projectId) => _projectRepository.finish(projectId);
 }

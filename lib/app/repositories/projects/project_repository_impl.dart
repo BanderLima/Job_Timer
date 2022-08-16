@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'dart:developer';
 
 import 'package:isar/isar.dart';
@@ -25,7 +26,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
         return isar.projects.put(project);
       });
     } on IsarError catch (e, s) {
-      log('Erro ao cadastrar projeto', error: e, stackTrace: s);
+      developer.log('Erro ao cadastrar projeto', error: e, stackTrace: s);
     }
   }
 
@@ -45,7 +46,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
     final project = await findById(projectId);
 
     project.tasks.add(task);
-    await connection.writeTxn(
+    connection.writeTxn(
       (isar) => project.tasks.save(),
     );
 
@@ -61,5 +62,22 @@ class ProjectRepositoryImpl implements ProjectRepository {
       throw Failure(message: 'Projeto não encontrado');
     }
     return project;
+  }
+
+  @override
+  Future<void> finish(int projectId) async {
+    try {
+      final connection = await _database.openConnection(); //abrindo a conexao
+      final project = await findById(projectId); //buscando o projeto pelo id
+      project.status =
+          ProjectStatus.finalizado; // alterando o estatus para finalizado
+      await connection.writeTxn(
+        (isar) => connection.projects.put(project, saveLinks: true),
+      );
+    } on IsarError catch (e, s) {
+      //tratamento de erro com a conexao com banco de dados
+      log(e.message, error: e, stackTrace: s);
+      throw Failure(message: 'Erro ao finalizar projeto');
+    }
   }
 }

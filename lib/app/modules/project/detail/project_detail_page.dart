@@ -2,6 +2,7 @@ import 'package:asuka/asuka.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_timer/app/core/ui/job_timer_icons.dart';
+import 'package:job_timer/app/modules/entities/project_status.dart';
 import 'package:job_timer/app/modules/project/detail/controller/project_detail_controller.dart';
 import 'package:job_timer/app/modules/project/detail/widgets/project_detail_appbar.dart';
 import 'package:job_timer/app/modules/project/detail/widgets/project_pie_chart.dart';
@@ -57,6 +58,10 @@ class ProjectDetailPage extends StatelessWidget {
   }
 
   Widget _buildProjectDetail(BuildContext context, ProjectModel projectModel) {
+    final totalTasks = projectModel.tasks.fold<int>(0, (totalValue, task) {
+      return totalValue += task.duration;
+    });
+
     return CustomScrollView(
       slivers: [
         ProjectDetailAppbar(
@@ -68,11 +73,17 @@ class ProjectDetailPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 50.0, bottom: 50),
               child: ProjectPieChart(
-                  projectEstimate: projectModel.estimate, totalTasks: 100),
+                  projectEstimate: projectModel.estimate,
+                  totalTasks: totalTasks),
             ),
-            ProjectTaskTile(),
-            ProjectTaskTile(),
-            ProjectTaskTile(),
+            ...projectModel
+                .tasks // essa parte q faz com que os nomes das tasks apareçam no tela.
+                .map(
+                  (task) => ProjectTaskTile(
+                    task: task,
+                  ),
+                )
+                .toList(),
           ]),
         ),
         SliverFillRemaining(
@@ -82,10 +93,15 @@ class ProjectDetailPage extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(JobTimerIcons.ok_circled2),
-                  label: const Text('Finalizar Projeto')),
+              child: Visibility(
+                visible: projectModel.status != ProjectStatus.finalizado,
+                child: ElevatedButton.icon(
+                    onPressed: () {
+                      controller.finishProject();
+                    },
+                    icon: const Icon(JobTimerIcons.ok_circled2),
+                    label: const Text('Finalizar Projeto')),
+              ),
             ),
           ),
         ) //esse Sliverremain utiliza o resto da tela, usar sempre no fim das telas, ai so add o que quer pra ficar no fim.
